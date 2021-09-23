@@ -15,4 +15,4 @@ Jedoch wäre es nett, wenn man mich davor kontaktiert.
 
 ## Kontakt
 
-[mailto:clemensrustemeier@gmail.com](clemensrustemeier@gmail.com)
+[clemensrustemeier@gmail.com](mailto:clemensrustemeier@gmail.com)
