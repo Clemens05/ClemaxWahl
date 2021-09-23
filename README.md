@@ -6,7 +6,7 @@
 
 ## Zur Information
 
-Ich habe dieses Projekt innerhalb von 3 Stunden geplant und umgesetzt. Dementsprechend sieht auch die HTML-Ansicht und der Code allgemein aus.
+Ich habe dieses Projekt innerhalb von 3 Stunden geplant und umgesetzt. Dementsprechend sieht auch das Design der Seite und der Code aus.
 
 ## API
 
