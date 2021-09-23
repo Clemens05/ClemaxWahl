@@ -1,0 +1,71 @@
+{
+    "last_updated": "Donnerstag, 23. September, 19:02",
+    "partys": [
+        {
+            "shortcut": "cdu",
+            "shortname": "CDU/CSU",
+            "name": "Christlich Demokratische Union / Christlich-Soziale Union"
+        },
+        {
+            "shortcut": "spd",
+            "shortname": "SPD",
+            "name": "Sozialdemokratische Partei Deutschlands"
+        },
+        {
+            "shortcut": "fdp",
+            "shortname": "FDP",
+            "name": "Freie Demokratische Partei"
+        },
+        {
+            "shortcut": "gruene",
+            "shortname": "GRÜNE",
+            "name": "Bündnis 90/Die Grünen"
+        },
+        {
+            "shortcut": "linke",
+            "shortname": "LINKE",
+            "name": "Die Linke"
+        },
+        {
+            "shortcut": "afd",
+            "shortname": "AfD",
+            "name": "Alternative für Deutschland"
+        },
+        {
+            "shortcut": "fw",
+            "shortname": "FW",
+            "name": "Freie Wähler"
+        },
+        {
+            "shortcut": "other",
+            "shortname": "Sonstige",
+            "name": "Sonstige Parteien"
+        }
+    ],
+    "forecast": {
+        "cdu": {
+            "bundestagswahl-2021": 21
+        },
+        "spd": {
+            "bundestagswahl-2021": 25
+        },
+        "fdp": {
+            "bundestagswahl-2021": 11
+        },
+        "gruene": {
+            "bundestagswahl-2021": 15
+        },
+        "linke": {
+            "bundestagswahl-2021": 7
+        },
+        "afd": {
+            "bundestagswahl-2021": 11
+        },
+        "fw": {
+            "bundestagswahl-2021": 2
+        },
+        "other": {
+            "bundestagswahl-2021": 6
+        }
+    }
+}
