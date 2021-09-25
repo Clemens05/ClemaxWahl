@@ -21,9 +21,13 @@ function echoFooter() {
     echo '
         <title>ClemaxWahl</title>
         <hr>
-        <a href="' . MAINPATH . '/prognose/raw">JSON Daten</a>
+        <a href="' . MAINPATH . '/prognose/raw">API</a>
          | 
         <a href="' . MAINPATH . '/prognose/last_updated">Zuletzt erneuert</a>
+         | 
+        <a href="https://github.com/Clemens05/ClemaxWahl">GitHub</a>
+         | 
+        <a href="mailto:clemensrustemeier@gmail.com">Kontakt (E-Mail)</a>
     ';
 }
 
@@ -64,8 +68,11 @@ function parse_url_path() {
 class Prognose {
     private $html;
     private $content;
+    private $wahl;
 
     function __construct() {
+        $this->setWahl('bundestagswahl-2021');
+
         $this->addText('Prognose zur Bundestagswahl 2021', 'h1');
 
         $this->content = json_decode(file_get_contents('wahlprognose.json'), true);
@@ -74,7 +81,21 @@ class Prognose {
 
         $this->addPossibleCoalitions();
 
+        $this->addSources();
+
         $this->addText('Zuletzt erneuert: ' . $this->content['last_updated'], 'alert');
+    }
+
+    private function addSources() {
+        $content = 'Quellen: ';
+
+        for ($i=0; $i < count($this->content['forecast-sources'][$this->wahl]); $i++) {
+            $content .= $this->content['forecast-sources'][$this->wahl][$i] . (count($this->content['forecast-sources'][$this->wahl]) <= $i + 1 ? ' ' : ', ');
+        }
+
+        $content .= '<br>Alle Daten wurden von <a href="https://wahlrecht.de/umfragen/">wahlrecht.de/umfragen</a> übernommen.';
+
+        $this->addText($content, 'code');
     }
 
     private function addPollValues() {
@@ -85,7 +106,7 @@ class Prognose {
         $forecast_row = '<tr>';
         for ($i=0; $i < count($this->content['forecast']); $i++) {
             $party_names_row .= '<th>' . $this->content['partys'][$i]['shortname'] . '</th>';
-            $forecast_row .= '<td>' . $this->content['forecast'][$this->content['partys'][$i]['shortcut']]['bundestagswahl-2021'] . '</td>';
+            $forecast_row .= '<td>' . $this->content['forecast'][$this->content['partys'][$i]['shortcut']][$this->wahl] . '</td>';
         }
         $party_names_row .= '</tr>';
         $forecast_row .= '</tr>';
@@ -100,22 +121,35 @@ class Prognose {
 
         for ($i=0; $i < count($this->content['partys']); $i++) { 
             if ($this->content['partys'][$i]['shortcut'] != 'other') {
-                if ($this->content['forecast'][$this->content['partys'][$i]['shortcut']]['bundestagswahl-2021'] < 5) {
+                if ($this->content['forecast'][$this->content['partys'][$i]['shortcut']][$this->wahl] < 5) {
                     $forecast = $this->content['forecast'];
 
-                    $wahl = 'bundestagswahl-2021';
-                    $cdu = $forecast['cdu'][$wahl];
-                    $spd = $forecast['spd'][$wahl];
-                    $fdp = $forecast['fdp'][$wahl];
-                    $gruene = $forecast['gruene'][$wahl];
-                    $linke = $forecast['linke'][$wahl];
-                    $afd = $forecast['afd'][$wahl];
-                    $fw = $forecast['fw'][$wahl];
+                    $cdu = $forecast['cdu'][$this->wahl];
+                    $spd = $forecast['spd'][$this->wahl];
+                    $fdp = $forecast['fdp'][$this->wahl];
+                    $gruene = $forecast['gruene'][$this->wahl];
+                    $linke = $forecast['linke'][$this->wahl];
+                    $afd = $forecast['afd'][$this->wahl];
+                    $fw = $forecast['fw'][$this->wahl];
 
                     $table .= '
                         <tr>
+                            <th>
+                                Koalition
+                            </th>
+                            <th>
+                                Prozent
+                            </th>
+                            <th>
+                                Koalition möglich (Ja/Nein)
+                            </th>
+                        </tr>
+                        <tr>
                             <td>
                                 CDU
+                            </td>
+                            <td>
+                                '. $cdu . '%
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($cdu) . '
@@ -126,12 +160,18 @@ class Prognose {
                                 SPD
                             </td>
                             <td>
+                                '. $spd . '%
+                            </td>
+                            <td>
                                 '. $this->isCoalitionPollible($spd) . '
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 Große Koalition (CDU + SPD)
+                            </td>
+                            <td>
+                                '. ($cdu + $spd) . '%
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($cdu + $spd) . '
@@ -142,12 +182,18 @@ class Prognose {
                                 Jamaika-Koalition (CDU + FDP + GRÜNE)
                             </td>
                             <td>
+                                '. ($cdu + $fdp + $gruene) . '%
+                            </td>
+                            <td>
                                 '. $this->isCoalitionPollible($cdu + $fdp + $gruene) . '
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 Ampelkoalition (SPD + FDP + GRÜNE)
+                            </td>
+                            <td>
+                                '. ($spd + $fdp + $gruene) . '%
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($spd + $fdp + $gruene) . '
@@ -158,12 +204,18 @@ class Prognose {
                                 Schwarz-Rot-Grün (CDU + SPD + GRÜNE)
                             </td>
                             <td>
+                                '. ($cdu + $spd + $gruene) . '%
+                            </td>
+                            <td>
                                 '. $this->isCoalitionPollible($cdu + $spd + $gruene) . '
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 Schwarz-Rot-Gelb (CDU + SPD + FDP)
+                            </td>
+                            <td>
+                                '. ($cdu + $spd + $fdp) . '%
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($cdu + $spd + $fdp) . '
@@ -174,12 +226,18 @@ class Prognose {
                                 Rot-Rot-Grün (SPD + GRÜNE + LINKE)
                             </td>
                             <td>
+                                '. ($spd + $gruene + $linke) . '%
+                            </td>
+                            <td>
                                 '. $this->isCoalitionPollible($spd + $gruene + $linke) . '
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 Rot-Grün (SPD + GRÜNE)
+                            </td>
+                            <td>
+                                '. ($spd + $gruene) . '%
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($spd + $gruene) . '
@@ -190,12 +248,18 @@ class Prognose {
                                 Schwarz-Grün (CDU + GRÜNE)
                             </td>
                             <td>
+                                '. ($cdu + $gruene) . '%
+                            </td>
+                            <td>
                                 '. $this->isCoalitionPollible($cdu + $gruene) . '
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 Schwarz-Gelb (CDU + FDP)
+                            </td>
+                            <td>
+                                '. ($cdu + $fdp) . '%
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($cdu + $fdp) . '
@@ -222,9 +286,9 @@ class Prognose {
 
     private function isCoalitionPollible($values) {
         if ($values > 50) {
-            return "Ja";
+            return '<span style="color: green">Ja</span>';
         } else {
-            return "Nein";
+            return '<span style="color: red">Nein</span>';
         }
     }
 
@@ -299,6 +363,10 @@ class Prognose {
 
     public function getHTML() {
         return $this->html;
+    }
+
+    public function setWahl($name) {
+        $this->wahl = $name;
     }
 }
 

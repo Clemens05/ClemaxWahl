@@ -1,5 +1,5 @@
 {
-    "last_updated": "Donnerstag, 23. September, 19:02",
+    "last_updated": "Donnerstag, 24. September, 12:17",
     "partys": [
         {
             "shortcut": "cdu",
@@ -53,13 +53,13 @@
             "bundestagswahl-2021": 11
         },
         "gruene": {
-            "bundestagswahl-2021": 15
+            "bundestagswahl-2021": 16
         },
         "linke": {
-            "bundestagswahl-2021": 7
+            "bundestagswahl-2021": 6
         },
         "afd": {
-            "bundestagswahl-2021": 11
+            "bundestagswahl-2021": 10
         },
         "fw": {
             "bundestagswahl-2021": 2
@@ -67,5 +67,13 @@
         "other": {
             "bundestagswahl-2021": 6
         }
+    },
+    "forecast-sources": {
+        "bundestagswahl-2021": [ 
+            "Kantar (Emnid)",
+            "Forsa",
+            "Forschungsgruppe Wahlen",
+            "Yougov"
+        ]
     }
 }

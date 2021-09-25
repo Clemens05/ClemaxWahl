@@ -1,7 +1,0 @@
-# Example .htaccess file
-
-# RewriteCond %{REQUEST_FILENAME} !-f
-# RewriteCond %{REQUEST_FILENAME} !-d
-# #Bewirkt, dass diese RewriteRule nur unter /clemaxwahl/ funktioniert
-# RewriteCond %{REQUEST_URI} ^/clemaxwahl/(.*)$
-# RewriteRule (.*) clemaxwahl/index.php/$1 [L]
