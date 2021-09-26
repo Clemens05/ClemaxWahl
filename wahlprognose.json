@@ -1,20 +1,15 @@
 {
-    "last_updated": "Donnerstag, 24. September, 12:17",
+    "last_updated": "Sonntag, 26. September, 22:03",
     "partys": [
-        {
-            "shortcut": "cdu",
-            "shortname": "CDU/CSU",
-            "name": "Christlich Demokratische Union / Christlich-Soziale Union"
-        },
         {
             "shortcut": "spd",
             "shortname": "SPD",
             "name": "Sozialdemokratische Partei Deutschlands"
         },
         {
-            "shortcut": "fdp",
-            "shortname": "FDP",
-            "name": "Freie Demokratische Partei"
+            "shortcut": "cdu",
+            "shortname": "CDU/CSU",
+            "name": "Christlich Demokratische Union / Christlich-Soziale Union"
         },
         {
             "shortcut": "gruene",
@@ -22,14 +17,19 @@
             "name": "Bündnis 90/Die Grünen"
         },
         {
-            "shortcut": "linke",
-            "shortname": "LINKE",
-            "name": "Die Linke"
+            "shortcut": "fdp",
+            "shortname": "FDP",
+            "name": "Freie Demokratische Partei"
         },
         {
             "shortcut": "afd",
             "shortname": "AfD",
             "name": "Alternative für Deutschland"
+        },
+        {
+            "shortcut": "linke",
+            "shortname": "DIE LINKE",
+            "name": "Die Linke"
         },
         {
             "shortcut": "fw",
@@ -44,36 +44,48 @@
     ],
     "forecast": {
         "cdu": {
-            "bundestagswahl-2021": 21
+            "bundestagswahl-2021": 21,
+            "bundestagswahl-2021-projections": 24.2
         },
         "spd": {
-            "bundestagswahl-2021": 25
+            "bundestagswahl-2021": 25,
+            "bundestagswahl-2021-projections": 25.8
         },
         "fdp": {
-            "bundestagswahl-2021": 11
+            "bundestagswahl-2021": 11,
+            "bundestagswahl-2021-projections": 11.5
         },
         "gruene": {
-            "bundestagswahl-2021": 16
+            "bundestagswahl-2021": 16,
+            "bundestagswahl-2021-projections": 14.3
         },
         "linke": {
-            "bundestagswahl-2021": 6
+            "bundestagswahl-2021": 6,
+            "bundestagswahl-2021-projections": 5
         },
         "afd": {
-            "bundestagswahl-2021": 10
+            "bundestagswahl-2021": 11,
+            "bundestagswahl-2021-projections": 10.6
         },
         "fw": {
-            "bundestagswahl-2021": 2
+            "bundestagswahl-2021": 3,
+            "bundestagswahl-2021-projections": null
         },
         "other": {
-            "bundestagswahl-2021": 6
+            "bundestagswahl-2021": 6,
+            "bundestagswahl-2021-projections": 8.6
         }
     },
     "forecast-sources": {
-        "bundestagswahl-2021": [ 
+        "bundestagswahl-2021": [
+            "Allensbach",
             "Kantar (Emnid)",
             "Forsa",
             "Forschungsgruppe Wahlen",
             "Yougov"
+        ],
+        "bundestagswahl-2021-projections": [
+            "ARD"
         ]
     }
 }

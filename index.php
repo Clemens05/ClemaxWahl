@@ -10,6 +10,8 @@ define('URL_PORT', parse_url($url, PHP_URL_PORT));
 define('URL_QUERY', parse_url($url, PHP_URL_QUERY));
 define('URL_FRAGMENT', parse_url($url, PHP_URL_FRAGMENT));
 
+define('CURRENT_ELECTION', file_get_contents('current_election'));
+
 $url_path = parse_url($url, PHP_URL_PATH);
 if (substr($url_path, -1) == '/') {
     define('URL_PATH', substr($url_path, 0, -1));
@@ -21,13 +23,22 @@ function echoFooter() {
     echo '
         <title>ClemaxWahl</title>
         <hr>
-        <a href="' . MAINPATH . '/prognose/raw">API</a>
-         | 
-        <a href="' . MAINPATH . '/prognose/last_updated">Zuletzt erneuert</a>
-         | 
-        <a href="https://github.com/Clemens05/ClemaxWahl">GitHub</a>
-         | 
-        <a href="mailto:clemensrustemeier@gmail.com">Kontakt (E-Mail)</a>
+        <div style="float: left">
+            <a href="' . MAINPATH . '/prognose/raw">API</a>
+            | 
+            <a href="' . MAINPATH . '/prognose/last_updated">Zuletzt erneuert</a>
+            | 
+            <a href="' . MAINPATH . '/prognose/current_election">Aktuelle Wahl</a>
+            | 
+            <a href="https://github.com/Clemens05/ClemaxWahl">GitHub</a>
+            | 
+            <a href="mailto:clemensrustemeier@gmail.com">Kontakt (E-Mail)</a>
+            | 
+            <span>' . CURRENT_ELECTION . '</span>
+        </div>
+        <div style="float: right">
+            <span>[ </span><a href="' . MAINPATH . '/prognose/">Startseite</a><span> ]</span>
+        </div>
     ';
 }
 
@@ -47,7 +58,13 @@ function parse_url_path() {
     
         case MAINPATH . '/prognose/last_updated':
             return [
-                'content' => json_decode(file_get_contents('wahlprognose.json'), true)['last_updated']
+                'content' => '<code>' . json_decode(file_get_contents('wahlprognose.json'), true)['last_updated'] . '</code>'
+            ];
+            break;
+
+        case MAINPATH . '/prognose/current_election':
+            return [
+                'content' => '<code>' . CURRENT_ELECTION . '</code>'
             ];
             break;
 
@@ -71,7 +88,7 @@ class Prognose {
     private $wahl;
 
     function __construct() {
-        $this->setWahl(file_get_contents('current_election'));
+        $this->setWahl(CURRENT_ELECTION);
 
         $this->addText('Prognose zur Bundestagswahl 2021', 'h1');
 
@@ -106,7 +123,11 @@ class Prognose {
         $forecast_row = '<tr>';
         for ($i=0; $i < count($this->content['forecast']); $i++) {
             $party_names_row .= '<th>' . $this->content['partys'][$i]['shortname'] . '</th>';
-            $forecast_row .= '<td>' . $this->content['forecast'][$this->content['partys'][$i]['shortcut']][$this->wahl] . '</td>';
+            if (isset($this->content['forecast'][$this->content['partys'][$i]['shortcut']][$this->wahl])) {
+                $forecast_row .= '<td>' . $this->content['forecast'][$this->content['partys'][$i]['shortcut']][$this->wahl] . ' %</td>';
+            } else {
+                $forecast_row .= '<td>N/A</td>';
+            }
         }
         $party_names_row .= '</tr>';
         $forecast_row .= '</tr>';
@@ -149,7 +170,7 @@ class Prognose {
                                 CDU
                             </td>
                             <td>
-                                '. $cdu . '%
+                                '. $cdu . ' %
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($cdu) . '
@@ -160,7 +181,7 @@ class Prognose {
                                 SPD
                             </td>
                             <td>
-                                '. $spd . '%
+                                '. $spd . ' %
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($spd) . '
@@ -171,7 +192,7 @@ class Prognose {
                                 Große Koalition (CDU + SPD)
                             </td>
                             <td>
-                                '. ($cdu + $spd) . '%
+                                '. ($cdu + $spd) . ' %
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($cdu + $spd) . '
@@ -182,7 +203,7 @@ class Prognose {
                                 Jamaika-Koalition (CDU + FDP + GRÜNE)
                             </td>
                             <td>
-                                '. ($cdu + $fdp + $gruene) . '%
+                                '. ($cdu + $fdp + $gruene) . ' %
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($cdu + $fdp + $gruene) . '
@@ -193,7 +214,7 @@ class Prognose {
                                 Ampelkoalition (SPD + FDP + GRÜNE)
                             </td>
                             <td>
-                                '. ($spd + $fdp + $gruene) . '%
+                                '. ($spd + $fdp + $gruene) . ' %
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($spd + $fdp + $gruene) . '
@@ -204,7 +225,7 @@ class Prognose {
                                 Schwarz-Rot-Grün (CDU + SPD + GRÜNE)
                             </td>
                             <td>
-                                '. ($cdu + $spd + $gruene) . '%
+                                '. ($cdu + $spd + $gruene) . ' %
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($cdu + $spd + $gruene) . '
@@ -215,7 +236,7 @@ class Prognose {
                                 Schwarz-Rot-Gelb (CDU + SPD + FDP)
                             </td>
                             <td>
-                                '. ($cdu + $spd + $fdp) . '%
+                                '. ($cdu + $spd + $fdp) . ' %
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($cdu + $spd + $fdp) . '
@@ -226,7 +247,7 @@ class Prognose {
                                 Rot-Rot-Grün (SPD + GRÜNE + LINKE)
                             </td>
                             <td>
-                                '. ($spd + $gruene + $linke) . '%
+                                '. ($spd + $gruene + $linke) . ' %
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($spd + $gruene + $linke) . '
@@ -237,7 +258,7 @@ class Prognose {
                                 Rot-Grün (SPD + GRÜNE)
                             </td>
                             <td>
-                                '. ($spd + $gruene) . '%
+                                '. ($spd + $gruene) . ' %
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($spd + $gruene) . '
@@ -248,7 +269,7 @@ class Prognose {
                                 Schwarz-Grün (CDU + GRÜNE)
                             </td>
                             <td>
-                                '. ($cdu + $gruene) . '%
+                                '. ($cdu + $gruene) . ' %
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($cdu + $gruene) . '
@@ -259,7 +280,7 @@ class Prognose {
                                 Schwarz-Gelb (CDU + FDP)
                             </td>
                             <td>
-                                '. ($cdu + $fdp) . '%
+                                '. ($cdu + $fdp) . ' %
                             </td>
                             <td>
                                 '. $this->isCoalitionPollible($cdu + $fdp) . '
@@ -273,11 +294,11 @@ class Prognose {
         $table .= '</table>';
 
         $this->addHTML($table);
-        $this->addText('Da jede Partei ausdrücklich verneint hat, mit der AfD koalieren zu wollen, ist diese in dieser Darstellung nicht aufgelistet.<br>Außerdem wird die Partei Freie Wähler vermutlich die 5%-Hürde nicht erreichen, weshalb sie ebenfalls nicht aufgelistet ist.', 'information');
+        $this->addText('Da jede Partei ausdrücklich verneint hat, mit der AfD koalieren zu wollen, ist diese in dieser Darstellung nicht aufgelistet.<br>Außerdem wird die Partei Freie Wähler vermutlich die 5 %-Hürde nicht erreichen, weshalb sie ebenfalls nicht aufgelistet ist.', 'information');
     }
 
     private function isCoalitionPollible($values) {
-        if ($values > 50) {
+        if ($values >= 50) {
             return '<span style="color: green">Ja</span>';
         } else {
             return '<span style="color: red">Nein</span>';
@@ -372,10 +393,10 @@ $content = parse_url_path();
 
 if (isset($content['content'])) {
     echo $content['content'];
-    if (URL_PATH != MAINPATH . '/prognose/last_updated') echoFooter();
+    echoFooter();
 } else if (isset($content['error'])) {
     header('Content-Type: application/json');
-    echo json_encode($content, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
+    echo json_encode($content, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 } else if (isset($content['json'])) {
     header('Content-Type: application/json');
     echo $content['json'];
