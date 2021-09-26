@@ -71,7 +71,7 @@ class Prognose {
     private $wahl;
 
     function __construct() {
-        $this->setWahl('bundestagswahl-2021');
+        $this->setWahl(file_get_contents('current_election'));
 
         $this->addText('Prognose zur Bundestagswahl 2021', 'h1');
 
@@ -266,14 +266,6 @@ class Prognose {
                             </td>
                         </tr>
                     ';
-                    
-                    if ($forecast['cdu'] > 50) {
-                        
-                    } else if ($forecast['spd'] > 50) {
-
-                    } else if ($forecast['cdu'] + $forecast['spd'] > 50) {
-                        
-                    }
                 }
             }
         }
