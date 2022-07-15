@@ -2,7 +2,7 @@
 
 ## Webseite
 
-[wahl.clemax.site](https://wahl.clemax.site)
+[wahl.clemax.org](http://wahl.clemax.org)
 
 ## Zur Information
 
