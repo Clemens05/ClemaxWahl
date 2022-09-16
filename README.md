@@ -4,10 +4,6 @@
 
 [wahl.clemax.org](http://wahl.clemax.org)
 
-## Zur Information
-
-Ich habe dieses Projekt innerhalb von 3 Stunden geplant und umgesetzt. Dementsprechend sieht auch das Design der Seite und der Code aus.
-
 ## API
 
 Jeder der möchte, kann sich an der API bedienen. Diese kann man mit [GET wahl.clemax.org/prognose/raw](http://wahl.clemax.org/prognose/raw) erhalten.
