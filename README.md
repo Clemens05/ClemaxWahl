@@ -14,4 +14,4 @@ Jeder der möchte, kann sich an der API bedienen. Diese kann man mit [GET wahl.c
 
 ## In Planung
 
-Es ist geplant, dass man die Daten nicht mehr über eine JSON-Datei bekommt, sondern über eine SQL-Datenbank. Dies würde das editieren von Daten erleichtern.
+Es ist geplant, dass man die Daten nicht mehr über eine JSON-Datei bekommt, sondern über eine Datenbank.
