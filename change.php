@@ -10,7 +10,7 @@ $file = 'wahlprognose.json';
 if (isset($_POST['text']))
 {
     if (isset($_POST['password'])) {
-        if ($_POST['password'] == 'esozb1n') {
+        if ($_POST['password'] == 'Your_Password') {
             // save the text contents
             file_put_contents($file, $_POST['text']);
 
